@@ -2,15 +2,21 @@
 # created on 2012/12/23
 # by tanaka@hongo.wide.ad.jp
 
-TARGET = nsa-client
+CLIENT = nsa-client
+SERVER = nsa-server
+TARGET = $(CLIENT) $(SERVER)
 CXXFLAGS += -O3 -Wall
 LDFLAGS += -lc
-OBJS = client.o
+OBJS_CLI = client.o
+OBJS_SRV = server.o
 
 all: $(TARGET)
-	$(CC) -o $(TARGET) $(LDFLAGS) $(OBJS)
 
-$(TARGET): $(OBJS)
+$(CLIENT): $(OBJS_CLI)
+	$(CC) -o $@ $(LDFLAGS) $(OBJS_CLI)
+
+$(SERVER): $(OBJS_SRV)
+	$(CC) -o $@ $(LDFLAGS) $(OBJS_SRV)
 
 clean:
 	$(RM) $(OBJS)
