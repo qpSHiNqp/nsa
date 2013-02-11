@@ -1,24 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #include <sys/socket.h>
-#include <sys/types.h>
 #include <netinet/in.h>
-#include <netinet/tcp.h>
-#include <netinet/ip.h>
-#include <arpa/inet.h>
+#include <unistd.h>
 #include <assert.h>
-
-extern int errno;
-
-int usage(int argc, char *argv[]) {
-	  printf("usage: %s port\n", argv[0]);
-		return 0;
-}
+#include "../common/common.h"
 
 int main(int argc, char *argv[]) {
-	int s_sock, c_sock, ret, n;
+	int s_sock, c_sock, ret;
 	socklen_t c_addr_len;
 	struct sockaddr_in s_addr;
 	struct sockaddr_in c_addr;
@@ -27,7 +17,7 @@ int main(int argc, char *argv[]) {
 
 	// arg checks
 	if(argc != 2) {
-		exit(usage(argc, argv));
+		exit(usage("usage: %s listen_port\n", argv));
 	}
 
 	s_sock = socket(PF_INET, SOCK_STREAM, 0);
@@ -45,7 +35,6 @@ int main(int argc, char *argv[]) {
 
 	assert(listen(s_sock, 5) == 0);
 	while(1) {
-		char data[1024];
 
 		printf("server waiting\n");
 
